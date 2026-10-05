@@ -1,0 +1,5 @@
+Model,Type,Accuracy,F1-Macro
+Tuned Logistic Regression,Traditional ML,1.0,1.0
+BiLSTM,Deep Learning,1.0,1.0
+Dense NN,Deep Learning,0.9998333333333334,0.9997983605696869
+LSTM,Deep Learning,0.9673333333333334,0.9423616307832431
