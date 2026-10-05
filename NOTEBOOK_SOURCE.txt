@@ -1,1 +1,5 @@
-The full Flipkart_Sentiment_Standalone.ipynb is available in the project. See README. To run: set DATA_PATH to your CSV and execute all cells for EDA plots, NLP, Tuned LR, BiLSTM, and predict_sentiment().
+Full interactive notebook with all inline plots is developed in the project workspace.
+Primary runnable entry points in this repo:
+  - flipkart_sentiment_pipeline.py  (complete pipeline)
+  - Flipkart_Sentiment_Standalone.ipynb  (runs the pipeline via %run)
+See README.md and reports/Final_Project_Report.md.
