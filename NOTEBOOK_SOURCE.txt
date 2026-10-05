@@ -1,0 +1,1 @@
+The full Flipkart_Sentiment_Standalone.ipynb is available in the project. See README. To run: set DATA_PATH to your CSV and execute all cells for EDA plots, NLP, Tuned LR, BiLSTM, and predict_sentiment().
