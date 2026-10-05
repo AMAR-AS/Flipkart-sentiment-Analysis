@@ -1,6 +1,8 @@
 # Flipkart Reviews Sentiment Analysis
 
-End-to-end **NLP + Machine Learning + Deep Learning** student project for 3-class sentiment classification (Positive / Neutral / Negative) on Flipkart-style product reviews.
+End-to-end **NLP + Machine Learning + Deep Learning** project for 3-class sentiment (Positive / Neutral / Negative) on Flipkart-style reviews.
+
+**Repo:** [AMAR-AS/Flipkart-sentiment-Analysis](https://github.com/AMAR-AS/Flipkart-sentiment-Analysis)
 
 ## Dataset
 
@@ -8,76 +10,60 @@ End-to-end **NLP + Machine Learning + Deep Learning** student project for 3-clas
 |------|-------|
 | Size | 30,000 reviews × 25 columns |
 | Target | Sentiment (Positive / Neutral / Negative) |
-| Class balance | ~62% Positive · ~20% Neutral · ~18% Negative |
-| Primary metric | **Macro F1-Score** |
+| Balance | ~62% Positive · ~20% Neutral · ~18% Negative |
+| Metric | **Macro F1-Score** |
 
-Place your CSV as `Flipkart Reviews Sentiment Analysis.csv` next to the notebook (or set `DATA_PATH` inside the notebook).
-
-## Project structure
-
-```
-Flipkart-sentiment-Analysis/
-├── README.md
-├── requirements.txt
-├── Flipkart_Sentiment_Standalone.ipynb   # Main runnable notebook (self-contained)
-├── notebooks/
-│   └── Flipkart_Sentiment_Analysis_Explain.ipynb
-└── reports/
-    ├── Final_Project_Report.md
-    └── model_comparison.csv
-```
+Put your CSV next to the scripts, or set `DATA_PATH` inside the file.
 
 ## Quick start
 
 ```bash
 pip install -r requirements.txt
-# Download NLTK data once (or let the notebook auto-download)
 python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('punkt_tab')"
+
+# Edit DATA_PATH in the script if needed, then:
+python flipkart_sentiment_pipeline.py
 ```
 
-Open **`Flipkart_Sentiment_Standalone.ipynb`**, set:
+Or open **`Flipkart_Sentiment_Standalone.ipynb`** and Run All (set `DATA_PATH` in the first code cell).
 
-```python
-DATA_PATH = "Flipkart Reviews Sentiment Analysis.csv"
-```
+## Pipeline
 
-Run all cells top to bottom.
+1. **Data prep** – load, clean, dates, missing values  
+2. **EDA** – sentiment charts, rating vs sentiment, categories  
+3. **NLP** – combine → clean → tokenize → stop-words → **lemmatize**  
+4. **ML** – TF-IDF → NB / LR / SVM → **Tuned Logistic Regression** (GridSearchCV)  
+5. **DL** – BiLSTM (optional if TensorFlow installed)  
+6. **Predict** – `predict_sentiment(review)` → class + confidence  
 
-## Pipeline (50 tasks)
-
-1. **Data prep** – load, missing values, duplicates, dates, cleaning  
-2. **EDA** – sentiment distribution, rating vs sentiment, categories, brands, word frequency plots  
-3. **NLP** – combine text → clean → tokenize → stop-words → lemmatize  
-4. **Traditional ML** – TF-IDF (uni+bi) → Naive Bayes, Logistic Regression, Linear SVM → **Tuned LR** (GridSearchCV)  
-5. **Deep Learning** – Embedding + Dense, LSTM, BiLSTM  
-6. **Prediction pipeline** – `predict_sentiment(review)` → class + confidence  
-
-## Model results (this synthetic dataset)
+## Results (synthetic dataset)
 
 | Model | Type | Accuracy | Macro F1 |
 |-------|------|----------|----------|
-| **Tuned Logistic Regression** | Traditional ML | 1.00 | 1.00 |
-| **BiLSTM** | Deep Learning | 1.00 | 1.00 |
-| Dense NN | Deep Learning | ~1.00 | ~1.00 |
-| LSTM | Deep Learning | ~0.97 | ~0.94 |
+| **Tuned Logistic Regression** | ML | 1.00 | 1.00 |
+| **BiLSTM** | DL | 1.00 | 1.00 |
+| Dense / LSTM | DL | ~0.97–1.00 | ~0.94–1.00 |
 
-Scores are near-perfect because reviews are short and template-like. On real Flipkart text, expect lower scores; the same pipeline still applies.
+Near-perfect scores reflect short, template-like synthetic reviews. Prefer **Tuned LR** for deployment (fast + interpretable).
 
-**Recommended production model here:** Tuned Logistic Regression (same quality as BiLSTM, faster, interpretable).
+### Tuned LR
 
-### Tuned LR (what it is)
+- Multinomial logistic regression on TF-IDF (uni+bi)
+- `class_weight='balanced'`
+- GridSearch on `C` and `solver` maximizing macro F1
 
-- Multinomial logistic regression on TF-IDF features  
-- `class_weight='balanced'` for class imbalance  
-- GridSearch over `C` and `solver` maximizing **macro F1**  
-- Coefficients show top positive/negative words  
+## Files
 
-## Requirements
-
-- Python 3.9+
-- pandas, numpy, scikit-learn, matplotlib, seaborn, nltk  
-- tensorflow (for DL cells; optional if you only run ML)
+```
+├── README.md
+├── requirements.txt
+├── flipkart_sentiment_pipeline.py   # full script
+├── Flipkart_Sentiment_Standalone.ipynb
+└── reports/
+    ├── Final_Project_Report.md
+    └── model_comparison.csv
+```
 
 ## Author
 
-AMAR-AS — B.Tech student project (ML & Deep Learning)
+**AMAR-AS** — B.Tech student project (ML & Deep Learning)
